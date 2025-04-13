@@ -90,7 +90,7 @@
       left: 50%;
       transform: translate(-50%, -50%) rotate(-30deg);
       font-size: 3em;
-      color: rgba(200, 0, 0, 0.1);
+      color: rgba(200, 0, 0, 0.08);
       font-weight: bold;
       pointer-events: none;
       z-index: 0;
@@ -160,11 +160,11 @@
 
     function calcular() {
       const multi = 159.90;
-      const celular = parseFloat(document.getElementById('celular').value) || 0;
-      const telfixo = parseFloat(document.getElementById('telfixo').value) || 0;
+      const gastoCelular = parseFloat(document.getElementById('celular').value) || 0;
+      const outrosGastos = parseFloat(document.getElementById('telfixo').value) || 0;
       const nome = document.getElementById('cliente').value.trim();
 
-      const resultado = multi - celular - telfixo;
+      const resultado = multi - gastoCelular - outrosGastos;
 
       document.getElementById('resultado').textContent = resultado.toFixed(2);
       document.getElementById('clienteNome').textContent = nome ? Sr/Sra ${nome}, : 'Sr/Sra,';
