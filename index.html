@@ -22,26 +22,6 @@
       border-radius: 10px;
       padding: 20px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .watermark {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-30deg);
-      font-size: 3em;
-      color: rgba(200, 0, 0, 0.1);
-      pointer-events: none;
-      user-select: none;
-      white-space: nowrap;
-      z-index: 0;
-    }
-
-    .container * {
-      position: relative;
-      z-index: 1;
     }
 
     h1 {
@@ -107,7 +87,6 @@
   <h1>Simulador de Custos</h1>
 
   <div class="container" id="simulador">
-    <div class="watermark">SIMULAÇÃO</div>
     <div class="logo">Claro</div>
     <table>
       <tr>
@@ -170,7 +149,7 @@
       const resultado = multi - celular - telfixo;
 
       document.getElementById('resultado').textContent = resultado.toFixed(2);
-      document.getElementById('clienteNome').textContent = nome ? Sr/Sra ${nome}, : 'Sr/Sra,';
+      document.getElementById('clienteNome').textContent = nome ? `Sr/Sra ${nome},` : 'Sr/Sra,';
 
       const hoje = new Date();
       const dataFormatada = hoje.toLocaleDateString('pt-BR');
@@ -181,7 +160,7 @@
       if (!ddd || !numero || numero.length < 9) return "";
       const parte1 = numero.slice(0, 5);
       const parte2 = numero.slice(5);
-      return (${ddd}) ${parte1}-${parte2};
+      return `(${ddd}) ${parte1}-${parte2}`;
     }
 
     function enviarWhatsapp() {
@@ -194,13 +173,14 @@
         const valorBL = document.getElementById('resultado').textContent;
         const numeroFormatado = formatarNumero(ddd, celularNum);
 
-        const texto = Olá, segue o cálculo da BL para Sr/Sra ${nome}. Valor: R$ ${valorBL}\nCelular: ${numeroFormatado};
-        const link = https://wa.me/?text=${encodeURIComponent(texto)};
+        const texto = `Olá, segue o cálculo da BL para Sr/Sra ${nome}. Valor: R$ ${valorBL}\nCelular: ${numeroFormatado}`;
+        const link = `https://wa.me/?text=${encodeURIComponent(texto)}`;
 
         window.open(link, '_blank');
 
+        // Exibe imagem da tela
         const novaJanela = window.open();
-        novaJanela.document.write(<img src="${imgData}" style="width:100%;">);
+        novaJanela.document.write(`<img src="${imgData}" style="width:100%;">`);
       });
     }
 
