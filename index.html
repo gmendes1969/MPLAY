@@ -12,7 +12,6 @@
       color: white;
       margin: 0;
       padding: 20px;
-      position: relative;
     }
 
     .container {
@@ -23,8 +22,6 @@
       border-radius: 10px;
       padding: 20px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      position: relative;
-      overflow: hidden;
     }
 
     h1 {
@@ -83,19 +80,6 @@
       font-size: 1em;
       cursor: pointer;
     }
-
-    .marca-agua {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-30deg);
-      font-size: 3em;
-      color: rgba(200, 0, 0, 0.08);
-      font-weight: bold;
-      pointer-events: none;
-      z-index: 0;
-      user-select: none;
-    }
   </style>
 </head>
 <body>
@@ -103,8 +87,6 @@
   <h1>Simulador de Custos</h1>
 
   <div class="container" id="simulador">
-    <div class="marca-agua">SIMULAÇÃO</div>
-
     <div class="logo">Claro</div>
     <table>
       <tr>
@@ -128,7 +110,7 @@
         <td><input type="number" id="celular" oninput="calcular()" step="0.01"></td>
       </tr>
       <tr>
-        <td>Outros gastos (streaming, fone etc):</td>
+        <td>Gasto com Tel fixo:</td>
         <td><input type="number" id="telfixo" oninput="calcular()" step="0.01"></td>
       </tr>
       <tr>
@@ -160,14 +142,14 @@
 
     function calcular() {
       const multi = 159.90;
-      const gastoCelular = parseFloat(document.getElementById('celular').value) || 0;
-      const outrosGastos = parseFloat(document.getElementById('telfixo').value) || 0;
+      const celular = parseFloat(document.getElementById('celular').value) || 0;
+      const telfixo = parseFloat(document.getElementById('telfixo').value) || 0;
       const nome = document.getElementById('cliente').value.trim();
 
-      const resultado = multi - gastoCelular - outrosGastos;
+      const resultado = multi - celular - telfixo;
 
       document.getElementById('resultado').textContent = resultado.toFixed(2);
-      document.getElementById('clienteNome').textContent = nome ? Sr/Sra ${nome}, : 'Sr/Sra,';
+      document.getElementById('clienteNome').textContent = nome ? `Sr/Sra ${nome},` : 'Sr/Sra,';
 
       const hoje = new Date();
       const dataFormatada = hoje.toLocaleDateString('pt-BR');
@@ -178,7 +160,7 @@
       if (!ddd || !numero || numero.length < 9) return "";
       const parte1 = numero.slice(0, 5);
       const parte2 = numero.slice(5);
-      return (${ddd}) ${parte1}-${parte2};
+      return `(${ddd}) ${parte1}-${parte2}`;
     }
 
     function enviarWhatsapp() {
@@ -191,13 +173,14 @@
         const valorBL = document.getElementById('resultado').textContent;
         const numeroFormatado = formatarNumero(ddd, celularNum);
 
-        const texto = Olá, segue o cálculo da BL para Sr/Sra ${nome}. Valor: R$ ${valorBL}\nCelular: ${numeroFormatado};
-        const link = https://wa.me/?text=${encodeURIComponent(texto)};
+        const texto = `Olá, segue o cálculo da BL para Sr/Sra ${nome}. Valor: R$ ${valorBL}\nCelular: ${numeroFormatado}`;
+        const link = `https://wa.me/?text=${encodeURIComponent(texto)}`;
 
         window.open(link, '_blank');
 
+        // Exibe imagem da tela
         const novaJanela = window.open();
-        novaJanela.document.write(<img src="${imgData}" style="width:100%;">);
+        novaJanela.document.write(`<img src="${imgData}" style="width:100%;">`);
       });
     }
 
